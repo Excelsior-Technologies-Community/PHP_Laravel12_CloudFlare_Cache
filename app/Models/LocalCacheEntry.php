@@ -18,5 +18,8 @@ class LocalCacheEntry extends Model
 
     protected $casts = [
         'expires_at' => 'datetime',
+        'http_status' => 'integer',
+        'response_time' => 'float',
+        'response_size' => 'integer',
     ];
 }

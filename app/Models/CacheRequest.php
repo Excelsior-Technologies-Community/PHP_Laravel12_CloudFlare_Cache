@@ -15,4 +15,10 @@ class CacheRequest extends Model
         'response_size',
         'content_type',
     ];
+
+    protected $casts = [
+        'http_status' => 'integer',
+        'response_time' => 'float',
+        'response_size' => 'integer',
+    ];
 }

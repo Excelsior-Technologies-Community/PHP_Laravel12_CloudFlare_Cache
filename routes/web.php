@@ -11,13 +11,24 @@ Route::get('/', function () {
 
 Route::prefix('cloudflare')->name('cloudflare.')->group(function () {
 
-    // Dashboard
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/dashboard', [
         CloudflareDashboardController::class,
         'index'
     ])->name('dashboard');
 
-    // Cache Management
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Management
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/cache', [
         CloudflareCacheController::class,
         'index'
@@ -33,12 +44,47 @@ Route::prefix('cloudflare')->name('cloudflare.')->group(function () {
         'purgeUrl'
     ])->name('cache.purge-url');
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Purge History
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/cache/history', [
         CloudflareCacheController::class,
         'history'
     ])->name('cache.history');
 
-    // URL Monitor
+    Route::get('/cache/history/export', [
+        CloudflareCacheController::class,
+        'exportHistory'
+    ])->name('cache.history.export');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Entry Management
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/cache/entries', [
+        CloudflareCacheController::class,
+        'entries'
+    ])->name('cache.entries');
+
+    Route::delete('/cache/entries', [
+        CloudflareCacheController::class,
+        'deleteEntries'
+    ])->name('cache.entries.delete');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | URL Monitor
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/monitor', [
         CacheMonitorController::class,
         'index'
@@ -48,4 +94,9 @@ Route::prefix('cloudflare')->name('cloudflare.')->group(function () {
         CacheMonitorController::class,
         'test'
     ])->name('monitor.test');
+
+    Route::get('/monitor/export', [
+        CacheMonitorController::class,
+        'export'
+    ])->name('monitor.export');
 });

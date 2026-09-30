@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
 
     <title>
         @yield('title', 'Cloudflare Cache Manager')
@@ -16,6 +25,7 @@
     >
 
     <style>
+
         body {
             background: #f5f7fb;
         }
@@ -24,7 +34,8 @@
             font-weight: 700;
         }
 
-        .dashboard-card {
+        .dashboard-card,
+        .table-card {
             border: 0;
             border-radius: 14px;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
@@ -39,25 +50,38 @@
             font-weight: 700;
         }
 
-        .table-card {
+        .status-badge {
+            min-width: 70px;
+        }
+
+        .nav-link.active {
+            font-weight: 700;
+        }
+
+        .table th {
+            white-space: nowrap;
+        }
+
+        .filter-card {
             border: 0;
             border-radius: 14px;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
         }
 
-        .status-badge {
-            min-width: 70px;
-        }
     </style>
+
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
     <div class="container">
 
-        <a class="navbar-brand"
-           href="{{ route('cloudflare.dashboard') }}">
+        <a
+            class="navbar-brand"
+            href="{{ route('cloudflare.dashboard') }}"
+        >
             ☁️ Cloudflare Cache Manager
         </a>
 
@@ -70,7 +94,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarMenu">
+        <div
+            class="collapse navbar-collapse"
+            id="navbarMenu"
+        >
 
             <ul class="navbar-nav ms-auto">
 
@@ -95,6 +122,15 @@
                 <li class="nav-item">
                     <a
                         class="nav-link"
+                        href="{{ route('cloudflare.cache.entries') }}"
+                    >
+                        Cache Entries
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
                         href="{{ route('cloudflare.monitor') }}"
                     >
                         URL Monitor
@@ -113,13 +149,17 @@
             </ul>
 
         </div>
+
     </div>
+
 </nav>
 
 <main class="container py-4">
 
     @if(session('success'))
+
         <div class="alert alert-success alert-dismissible fade show">
+
             {{ session('success') }}
 
             <button
@@ -127,11 +167,15 @@
                 class="btn-close"
                 data-bs-dismiss="alert"
             ></button>
+
         </div>
+
     @endif
 
     @if(session('error'))
+
         <div class="alert alert-danger alert-dismissible fade show">
+
             {{ session('error') }}
 
             <button
@@ -139,7 +183,27 @@
                 class="btn-close"
                 data-bs-dismiss="alert"
             ></button>
+
         </div>
+
+    @endif
+
+    @if($errors->any())
+
+        <div class="alert alert-danger">
+
+            <ul class="mb-0">
+
+                @foreach($errors->all() as $error)
+
+                    <li>{{ $error }}</li>
+
+                @endforeach
+
+            </ul>
+
+        </div>
+
     @endif
 
     @yield('content')
@@ -147,8 +211,11 @@
 </main>
 
 <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+@stack('scripts')
 
 </body>
+
 </html>
